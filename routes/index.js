@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const storeController = require('../controllers/storeController');
 
 // Do work here
-router.get('/', (req, res) => {
-    res.send('Welcome to Express!');
-});
+router.get('/', storeController.homePage);
 
 router.get('/add', (req, res) => {
-    res.render('editStore', {title: 'Add Store'});
+    res.render('editStore');
 });
 
 module.exports = router;
