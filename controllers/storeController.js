@@ -35,8 +35,8 @@ exports.addStore = (req, res) => {
 // this middleware adds the uploaded file to req object
 exports.upload = multer(multerOptions).single('photo');
 
-exports.resize = async (req, res, next) => {
-    if(!req.file){
+exports.resize = async(req, res, next) => {
+    if (!req.file) {
         next(); //skip to next middleware
         return;
     }
@@ -71,7 +71,7 @@ exports.editStore = async(req, res) => {
         title: `Edit ${store.name}`,
         store
     });
-}
+};
 
 exports.updateStore = async(req, res) => {
     req.body.location.type = 'Point';
@@ -87,4 +87,19 @@ exports.updateStore = async(req, res) => {
 
     req.flash('success', `Successfully updated ${store.name}. <a href="/stores/${store.slug}">View Store</a>`);
     res.redirect(`/stores/${store._id}/edit`);
-}
+};
+
+exports.getStoreBySlug = async(req, res, next) => {
+    const store = await Store.findOne({
+        slug: req.params.slug
+    });
+
+    if (!store) {
+        return next();
+    }
+
+    res.render('store', {
+        store,
+        title: store.name
+    });
+};

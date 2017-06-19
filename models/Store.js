@@ -24,10 +24,10 @@ const storeSchema = new mongoose.Schema({
             type: String,
             default: 'Point'
         },
-        coordinates: [{
+        coordinates: [ {
             type: Number,
             required: 'You must supply coordinates'
-        }],
+        } ],
         address: {
             type: String,
             required: 'You must supply an address!'
@@ -37,7 +37,7 @@ const storeSchema = new mongoose.Schema({
 });
 
 storeSchema.pre('save', function (next) {
-    if(!this.isModified('name')){
+    if (!this.isModified('name')) {
         return next();
     }
 
