@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 const slug = require('slugs');
+
+mongoose.Promise = global.Promise;
 
 const storeSchema = new mongoose.Schema({
     name: {
@@ -13,7 +14,7 @@ const storeSchema = new mongoose.Schema({
         type: 'String',
         trim: true
     },
-    tags: [String],
+    tags: [ String ],
     created: {
         type: Date,
         default: Date.now
@@ -31,7 +32,8 @@ const storeSchema = new mongoose.Schema({
             type: String,
             required: 'You must supply an address!'
         }
-    }
+    },
+    photo: String
 });
 
 storeSchema.pre('save', function (next) {
