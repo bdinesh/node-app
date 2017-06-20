@@ -5,18 +5,18 @@ const {
     catchErrors
 } = require('../handlers/errorHandlers');
 
-// Do work here
 router.get('/', catchErrors(storeController.getStores));
-router.get('/stores', catchErrors(storeController.getStores));
-router.get('/add', storeController.addStore);
 
-router.post('/add',
+router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/add', storeController.addStore);
+
+router.post('/stores/add',
     storeController.upload,
     catchErrors(storeController.resize),
     catchErrors(storeController.createStore)
 );
 
-router.post('/add/:id',
+router.post('/stores/add/:id',
     storeController.upload,
     catchErrors(storeController.resize),
     catchErrors(storeController.updateStore)
