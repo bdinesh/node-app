@@ -4,6 +4,9 @@
     "browser": true,
     "es6": true
   },
+  "globals": {
+    "google": true
+  },
   "extends": "eslint:recommended",
   "parserOptions": {
     "sourceType": "module",
