@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/storeController');
+const authController = require('../controllers/authController');
 const {
     catchErrors
 } = require('../handlers/errorHandlers');
@@ -8,7 +9,10 @@ const {
 router.get('/', catchErrors(storeController.getStores));
 
 router.get('/stores', catchErrors(storeController.getStores));
-router.get('/stores/add', storeController.addStore);
+router.get('/stores/add', 
+    authController.isLoggedIn, 
+    storeController.addStore
+);
 
 router.post('/stores/add',
     storeController.upload,

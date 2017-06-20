@@ -10,8 +10,11 @@ const promisify = require('es6-promisify');
 const flash = require('connect-flash');
 const expressValidator = require('express-validator');
 const storeRoutes = require('./routes/store-routes');
+const loginRoutes = require('./routes/login-routes');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
+
+require('./handlers/passport');
 
 // create our Express app
 const app = express();
@@ -70,7 +73,7 @@ app.use((req, res, next) => {
 });
 
 // After allllll that above middleware, we finally handle our own routes!
-app.use('/', [ storeRoutes ]);
+app.use('/', [ storeRoutes, loginRoutes ]);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
