@@ -71,13 +71,27 @@ exports.getStores = async (req, res) => {
     });
 };
 
+const confirmOwer = (store, user) => {
+    if (!store.author.equals(user._id)) {
+        return false;
+    } else {
+        return true;
+    }
+};
+
+
 exports.editStore = async (req, res) => {
     const store = await Store.findById(req.params.id);
 
-    res.render('editStore', {
-        title: `Edit ${store.name}`,
-        store
-    });
+    if (confirmOwer(store, req.user)) {
+        res.render('editStore', {
+            title: `Edit ${store.name}`,
+            store
+        });
+    } else {
+        req.flash('error', 'You must own a store in order to edit it');
+        res.redirect('/stores');
+    }
 };
 
 exports.updateStore = async (req, res) => {
