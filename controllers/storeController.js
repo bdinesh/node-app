@@ -184,8 +184,14 @@ exports.mapStores = async (req, res) => {
 
     const stores = await Store
         .find(query)
-        .select('name slug description location')
+        .select('name slug description location photo')
         .limit(10);
 
     res.json(stores);
+};
+
+exports.mapPage = (req, res) => {
+    res.render('map', {
+        title: 'Map'
+    });
 };
