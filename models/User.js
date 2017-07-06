@@ -21,7 +21,13 @@ const userSchema = new mongoose.Schema({
         required: 'Please enter a name'
     },
     resetPasswordToken: String,
-    resetPasswordExpiry: Date
+    resetPasswordExpiry: Date,
+    favoriteStores: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Store'
+        }
+    ]
 });
 
 userSchema.virtual('gravatar').get(function() {

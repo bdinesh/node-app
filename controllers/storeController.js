@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Store = mongoose.model('Store');
+const User = mongoose.model('User');
 // for handling multipart/form-data
 const multer = require('multer');
 // for image manipulation
@@ -194,4 +195,19 @@ exports.mapPage = (req, res) => {
     res.render('map', {
         title: 'Map'
     });
+};
+
+exports.favoriteStore = async (req, res) => {
+    const favorites = req.user.favoriteStores.map(store => store.toString());
+    const operator = favorites.includes(req.params.id) ? '$pull' : '$addToSet';
+    const user = await User
+        .findByIdAndUpdate(req.user._id, {
+            [operator]: {
+                favoriteStores: req.params.id
+            }
+        }, {
+            new: true
+        });
+
+    res.json(user);
 };
