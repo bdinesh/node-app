@@ -33,5 +33,6 @@ router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 router.get('/map', storeController.mapPage);
+router.get('/favoriteStores', catchErrors(storeController.viewFavouriteStores));
 
 module.exports = router;

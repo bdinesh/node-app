@@ -211,3 +211,16 @@ exports.favoriteStore = async (req, res) => {
 
     res.json(user);
 };
+
+exports.viewFavouriteStores = async (req, res) => {
+    const stores = await Store.find({
+        _id: {
+            $in: req.user.favoriteStores
+        }
+    });
+
+    res.render('stores', {
+        title: 'Favourite Stores',
+        stores
+    });
+};
