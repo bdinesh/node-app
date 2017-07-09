@@ -41,6 +41,12 @@ const storeSchema = new mongoose.Schema({
     }
 });
 
+storeSchema.virtual('reviews', {
+    ref: 'Review', // which model to link
+    localField: '_id', // which field on the store
+    foreignField: 'store' // which field on the review
+});
+
 storeSchema.index({
     name: 'text',
     description: 'text'
