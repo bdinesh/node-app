@@ -9,6 +9,7 @@ const {
 router.get('/', catchErrors(storeController.getStores));
 
 router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/page/:page', catchErrors(storeController.getStores));
 router.get('/stores/add', 
     authController.isLoggedIn, 
     storeController.addStore
@@ -37,5 +38,7 @@ router.get('/favoriteStores',
     authController.isLoggedIn,
     catchErrors(storeController.viewFavouriteStores)
 );
+
+router.get('/top', catchErrors(storeController.getTopStores));
 
 module.exports = router;

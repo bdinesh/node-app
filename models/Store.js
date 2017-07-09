@@ -56,6 +56,14 @@ storeSchema.index({
     location: '2dsphere'
 });
 
+function autopopulate(next) {
+    this.populate('reviews');
+    next();
+}
+
+storeSchema.pre('find', autopopulate);
+storeSchema.pre('findOne', autopopulate);
+
 storeSchema.pre('save', async function (next) {
     if (!this.isModified('name')) {
         return next();
@@ -90,6 +98,54 @@ storeSchema.statics.getTagsList = function () {
             count: -1
         }
     }
+    ]);
+};
+
+storeSchema.statics.getTopStores = function () {
+    return this.aggregate([
+        // lookup stores  and populate their reviews
+        {
+            $lookup: {
+                from: 'reviews',
+                localField: '_id',
+                foreignField: 'store',
+                as: 'reviews'
+            }
+        },
+
+        // filter stores that have 2 or more reviews
+        {
+            $match: {
+                'reviews.1': {
+                    $exists: true
+                }
+            }
+        },
+
+        // add the average rating field
+        {
+            $project: {
+                photo: '$$ROOT.photo',
+                name: '$$ROOT.name',
+                reviews: '$$ROOT.reviews',
+                slug: '$$ROOT.slug',
+                averageRating: {
+                    $avg: '$reviews.rating'
+                }
+            }
+        },
+
+        // sort the stores based on highest average rating first
+        {
+            $sort: {
+                averageRating: -1
+            }
+        },
+
+        // limit the results to 10
+        {
+            $limit: 10
+        }
     ]);
 };
 
