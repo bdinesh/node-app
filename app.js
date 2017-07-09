@@ -12,6 +12,7 @@ const expressValidator = require('express-validator');
 const storeRoutes = require('./routes/store-routes');
 const loginRoutes = require('./routes/login-routes');
 const storeApiRoutes = require('./routes/store-api-routes');
+const reviewRoutes = require('./routes/review-routes');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 
@@ -74,7 +75,7 @@ app.use((req, res, next) => {
 });
 
 // After allllll that above middleware, we finally handle our own routes!
-app.use('/', [ storeRoutes, loginRoutes, storeApiRoutes ]);
+app.use('/', [ storeRoutes, loginRoutes, storeApiRoutes, reviewRoutes ]);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
